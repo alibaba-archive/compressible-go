@@ -6,20 +6,15 @@ import (
 	compressible "github.com/teambition/compressible-go"
 )
 
-func ExampleDefaultCompressible() {
-	d := compressible.Default{}
-
-	d.SetTrashold(1024)
-
-	fmt.Println(d.Compressible("text/html", 1024))
+func Example() {
+	fmt.Println(compressible.Is("text/html"))
 	// -> true
 
-	fmt.Println(d.Compressible("text/html", 1000))
+	fmt.Println(compressible.Is("image/png"))
 	// -> false
 
-	fmt.Println(d.Compressible("image/png", 1024))
-	// -> false
+	var wt compressible.WithTrashold = 1024
 
-	fmt.Println(d.Compressible("text/boobar", 1024))
-	// -> true
+	fmt.Println(wt.Compressible("text/html", 1023))
+	// -> false
 }

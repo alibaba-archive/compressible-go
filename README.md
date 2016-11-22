@@ -1,4 +1,9 @@
 # compressible-go
+[![Build Status](https://travis-ci.org/teambition/compressible-go.svg?branch=master)](https://travis-ci.org/teambition/compressible-go)
+[![Coverage Status](https://coveralls.io/repos/github/teambition/compressible-go/badge.svg?branch=master)](https://coveralls.io/github/teambition/compressible-go?branch=master)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/teambition/compressible-go/master/LICENSE)
+[![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/teambition/compressible-go)
+
 Compressible Content-Type / mime checking for Go.
 
 ## Installation
@@ -16,21 +21,16 @@ import (
 ```
 
 ```go
-d := compressible.Default{}
-
-d.SetTrashold(1024)
-
-fmt.Println(d.Compressible("text/html", 1024))
+fmt.Println(compressible.Is("text/html"))
 // -> true
 
-fmt.Println(d.Compressible("text/html", 1000))
+fmt.Println(compressible.Is("image/png"))
 // -> false
 
-fmt.Println(d.Compressible("image/png", 1024))
-// -> false
+var wt compressible.WithTrashold = 1024
 
-fmt.Println(d.Compressible("text/boobar", 1024))
-// -> true
+fmt.Println(wt.Compressible("text/html", 1023))
+// -> false
 ```
 
 ## Documentation
