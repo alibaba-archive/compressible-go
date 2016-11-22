@@ -7,60 +7,43 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var dc = Default{}
-
 func TestDefaultCompressible(t *testing.T) {
-	t.Run("Should return error when set transhold < 0", func(t *testing.T) {
-		assert := assert.New(t)
-
-		err := dc.SetTrashold(-1)
-		assert.Equal(err.Error(), "compressible-go: trashold should >= 0")
-	})
-
-	t.Run("Should set transhold >= 0 successfully", func(t *testing.T) {
-		assert := assert.New(t)
-
-		err := dc.SetTrashold(1024)
-		assert.Nil(err)
-	})
+	Load()
 
 	t.Run("All mimedb compressible types reflect in compressible-go", func(t *testing.T) {
 		assert := assert.New(t)
 
 		for _, mimeEntry := range mimedb.DB {
-			assert.Equal(mimeEntry.Compressible,
-				dc.Compressible(mimeEntry.ContentType, dc.trashold))
+			assert.Equal(mimeEntry.Compressible, Is(mimeEntry.ContentType))
 		}
 	})
 
 	t.Run("Invalid types should return false", func(t *testing.T) {
 		assert := assert.New(t)
 
-		assert.False(dc.Compressible("foo/bar", dc.trashold))
+		assert.False(Is("foo/bar"))
 	})
 
 	t.Run("Types have the specified schemes should be compressible", func(t *testing.T) {
 		assert := assert.New(t)
 
 		types := [...]string{
-			"text/foobar",
-			"foo/bar+json",
+			"Text/foobar",
+			"foo/bar+jSOn",
 			"foo/bar+text",
-			"foo/bar+xml",
+			"foo/bar+XML",
 		}
 
 		for _, t := range types {
-			assert.True(dc.Compressible(t, dc.trashold))
+			assert.True(Is(t))
 		}
 	})
 
 	t.Run("should not be compressible if contentLength is smaller than transhold", func(t *testing.T) {
 		assert := assert.New(t)
+		var wt WithTrashold = 1024
 
-		err := dc.SetTrashold(1024)
-		assert.Nil(err)
-
-		assert.False(dc.Compressible("text/html", dc.trashold-1))
-		assert.True(dc.Compressible("text/html", dc.trashold))
+		assert.False(wt.Compressible("text/html", int(wt)-1))
+		assert.True(wt.Compressible("text/html", int(wt)))
 	})
 }
