@@ -39,6 +39,12 @@ func TestDefaultCompressible(t *testing.T) {
 		}
 	})
 
+	t.Run("Should return false when can not parse the type", func(t *testing.T) {
+		assert := assert.New(t)
+
+		assert.False(Is(""))
+	})
+
 	t.Run("should not be compressible if contentLength is smaller than transhold", func(t *testing.T) {
 		assert := assert.New(t)
 		var wt WithTrashold = 1024
