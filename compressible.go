@@ -1,3 +1,4 @@
+// Package compressible provides Compressible Content-Type / mime checking for Go.
 package compressible
 
 import (
@@ -24,8 +25,7 @@ func Is(contentType string) bool {
 	}
 
 	for _, ext := range exts {
-		// all exts returned by mime.ExtensionsByType are always
-		// start with ".".
+		// all exts returned by mime.ExtensionsByType are always start with ".".
 		if entry, ok := mimedb.DB[ext[1:]]; ok {
 			dbMatched = true
 
@@ -42,15 +42,15 @@ func Is(contentType string) bool {
 	return false
 }
 
-// WithTrashold is an impelementation with transhold. The transhold defines the // minimun content length to enable compressible check.
-type WithTrashold int
+// WithThreshold is an impelementation with transhold. The transhold defines the // minimun content length to enable compressible check.
+type WithThreshold int
 
 // Compressible checks the response Content-Type to determine whether to
 // compress. Using mime database https://github.com/GitbookIO/mimedb to find
-// which Content-Type is compressible and WithTrashold as content length
+// which Content-Type is compressible and WithThreshold as content length
 // transhold All types that not in mimedb but have the scheme of "text/*",
 // "*/*+json", "*/*+text", "*/*+xml" are considered as compressible.
-func (wt WithTrashold) Compressible(contentType string, contentLength int) bool {
+func (wt WithThreshold) Compressible(contentType string, contentLength int) bool {
 	if contentLength != 0 && wt > 0 && contentLength < int(wt) {
 		return false
 	}

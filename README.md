@@ -16,11 +16,9 @@ go get -u github.com/teambition/compressible-go
 
 ```go
 import (
-  compressible "github.com/teambition/compressible-go"
+  "github.com/teambition/compressible-go"
 )
-```
 
-```go
 fmt.Println(compressible.Is("text/html"))
 // -> true
 
@@ -31,6 +29,29 @@ var wt compressible.WithTrashold = 1024
 
 fmt.Println(wt.Compressible("text/html", 1023))
 // -> false
+```
+
+**Work with gear:**
+```go
+package main
+
+import (
+	"github.com/teambition/compressible-go"
+	"github.com/teambition/gear"
+	"github.com/teambition/gear/middleware/static"
+)
+
+func main() {
+	app := gear.New()
+	app.Set("AppCompress", compressible.WithThreshold(1024))
+
+	// Add a static middleware
+	app.Use(static.New(static.Options{
+		Root:   "./",
+		Prefix: "/",
+	}))
+	app.Error(app.Listen(":3000")) // http://127.0.0.1:3000/
+}
 ```
 
 ## Documentation

@@ -47,7 +47,7 @@ func TestDefaultCompressible(t *testing.T) {
 
 	t.Run("should not be compressible if contentLength is smaller than transhold", func(t *testing.T) {
 		assert := assert.New(t)
-		var wt WithTrashold = 1024
+		var wt WithThreshold = 1024
 
 		assert.False(wt.Compressible("text/html", int(wt)-1))
 		assert.True(wt.Compressible("text/html", int(wt)))
