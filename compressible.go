@@ -8,6 +8,9 @@ import (
 	"github.com/GitbookIO/mimedb"
 )
 
+// Version is Gear's version
+const Version = "1.0.1"
+
 var compressibleTypeRegExp = regexp.MustCompile(`(?i)^text\/|\+json$|\+text$|\+xml$`)
 
 // Is checks the response Content-Type to determine whether to compress.
